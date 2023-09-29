@@ -64,10 +64,12 @@ function createCatMarkup(data) {
     const catTemp = data.breeds[0].temperament;
     const catImage = data.url;
     
-    return `<img class='cat-img'src="${catImage}" alt="${catName}"></img> 
-    <div class='cat-container'><h2 class='cat-title'>Name: ${catName}</h2>
-    <p class='cat-desc'>Description: ${catDesc}</p>
-    <p class='cat-text'>Temperament: ${catTemp}</p></div>
+    return `<div class='cat-img-box'><img class='cat-img' src="${catImage}" alt="${catName}"></img></div>
+  <div class='cat-container'>
+  <h2 class='cat-title'>Name: ${catName}</h2>
+  <p class='cat-desc'>Description: ${catDesc}</p>
+  <p class='cat-text'>Temperament: ${catTemp}</p>
+  </div>
   `;
     
 };
