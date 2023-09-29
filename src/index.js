@@ -12,12 +12,15 @@ const refs = {
     errorMessage: document.querySelector('.error'),
 }
 
+
 refs.errorMessage.classList.add('hidden');
 refs.loader.classList.add('hidden');
+refs.select.classList.add('hidden');
+
 
 
 fetchBreeds()
-.then(onBreedSelect)
+.then(onBreedSelect, loader(true))
 .catch(onErrorHandle);
 
 
@@ -25,6 +28,8 @@ refs.select.addEventListener('change', onChangeInfo);
 
 
 function onBreedSelect(data) {
+    refs.select.classList.remove('hidden'); 
+    loader(false);
     new SlimSelect({
         select: '#selectElement'
     })
@@ -46,6 +51,7 @@ function onErrorHandle() {
 
 function onChangeInfo() {
     const breedId = refs.select.value;
+    refs.catBox.innerHTML = '';
     loader(true);
 
  fetchCatByBreed(breedId).then(onCatMarkupAdd).catch(onErrorHandle)
@@ -77,9 +83,11 @@ function createCatMarkup(data) {
 function loader(loadershown) {
     if (loadershown) {
         refs.loader.classList.remove('hidden');
+        refs.select.classList.add('hidden');
         refs.catBox.classList.add('hidden');
     } else {
         refs.loader.classList.add('hidden');
+        refs.select.classList.remove('hidden');
         refs.catBox.classList.remove('hidden');
     }
 }
