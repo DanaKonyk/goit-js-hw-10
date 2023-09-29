@@ -1,5 +1,7 @@
 
 import axios from 'axios';
+import Notiflix from "notiflix";
+import SlimSelect from 'slim-select'
 import { fetchBreeds, fetchCatByBreed } from './cat-api';
 axios.defaults.headers.common['x-api-key']= 'live_6wIqDfZq1Rpi6GuuxSeR9qwmPffzA87IA4DDRhaZufRrCgNklvzBusUPec9z9HlV'
 
@@ -9,6 +11,9 @@ const refs = {
     loader: document.querySelector('.loader'),
     errorMessage: document.querySelector('.error'),
 }
+
+refs.errorMessage.classList.add('hidden');
+refs.loader.classList.add('hidden');
 
 
 fetchBreeds()
@@ -20,6 +25,9 @@ refs.select.addEventListener('change', onChangeInfo);
 
 
 function onBreedSelect(data) {
+    new SlimSelect({
+        select: '#selectElement'
+    })
     data.forEach(breed => {
         const option = document.createElement("option");
         option.value = breed.id;
@@ -31,6 +39,9 @@ function onBreedSelect(data) {
 function onErrorHandle() {
     refs.select.classList.add('hidden');
     refs.catBox.classList.add('hidden');
+    const failMessage = refs.errorMessage.textContent;
+    Notiflix.Notify.failure(`${failMessage}`);
+
 }
 
 function onChangeInfo() {
@@ -53,7 +64,7 @@ function createCatMarkup(data) {
     const catTemp = data.breeds[0].temperament;
     const catImage = data.url;
     
-    return `<img src="${catImage}" alt="${catName}"></img> 
+    return `<img class='cat-img'src="${catImage}" alt="${catName}"></img> 
     <div class='cat-container'><h2 class='cat-title'>Name: ${catName}</h2>
     <p class='cat-desc'>Description: ${catDesc}</p>
     <p class='cat-text'>Temperament: ${catTemp}</p></div>
